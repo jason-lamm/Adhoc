@@ -1,5 +1,3 @@
-
-
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 SELECT count(distinct UserLogin) as "Total Unique Users"
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
@@ -68,8 +66,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 
 
 
-
------------------------------Peak Usage Date/Time--------------------------------------------------------------------
+----------------------------Peak Usage Date/Time--------------------------------------------------------------------
 
 SELECT TOP 1 FORMAT(logtime,'MM-dd hh tt') AS 'Day', COUNT(DISTINCT(userlogin)) AS UniqueUsers
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
@@ -107,8 +104,6 @@ ORDER BY UniqueUsers DESC
 
 
 
-
-
 --------------------------------Top Five Site URL----------------------------------------------------------------------
 
 SELECT TOP 5 LOWER(ServerUrl) as WebapplicationUrl, LOWER(SiteUrl) as SiteCollectionURL, LOWER(WebUrl) as WebSiteURL, count(distinct UserLogin) as Users
@@ -120,7 +115,6 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' an
 GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
 
----------------------------------------------------------------------------------------------
 
 SELECT TOP 5 LOWER(ServerUrl) as WebapplicationUrl, LOWER(SiteUrl) as SiteCollectionURL, LOWER(WebUrl) as WebSiteURL, count(distinct UserLogin) as Users
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
@@ -131,7 +125,6 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
 
----------------------------------------------------------------------------------------------
 
 SELECT TOP 5 LOWER(ServerUrl) as WebapplicationUrl, LOWER(SiteUrl) as SiteCollectionURL, LOWER(WebUrl) as WebSiteURL, count(distinct UserLogin) as Users
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
