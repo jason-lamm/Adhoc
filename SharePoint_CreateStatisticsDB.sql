@@ -13,10 +13,9 @@ GO
 Create Table UsageAndHealth_Statistics_Total_Unique_Users_Weekly (
 
 ID INT IDENTITY(1,1),
+Date date,
 ServerUrl varchar(max),
-share varchar(max), 
-cmsintranet varchar(max), 
-capms varchar(max) 
+"Total Unique Users" varchar(max)
 )
 
 
@@ -27,6 +26,7 @@ GO
 Create Table UsageAndHealth_Statistics_Daily_Unique_Users (
 
 ID INT IDENTITY(1,1),
+"Date Collected" date,
 ServerUrl varchar(max),
 "Day" varchar(max),
 "Day of Week" varchar(max),
