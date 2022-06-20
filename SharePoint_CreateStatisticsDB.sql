@@ -1,4 +1,5 @@
 /*
+PHASE 1
 SharePoint_CreateStatisticsDB.sql
 
 Create tables to hold SP statistics
@@ -41,6 +42,7 @@ GO
 Create Table UsageAndHealth_Statistics_PeakUsage_DateTime (
 
 ID INT IDENTITY(1,1),
+"Date Collected" date,
 ServerUrl varchar(max),
 Day varchar(max),
 UniqueUsers varchar(max)
@@ -55,7 +57,7 @@ GO
 Create Table UsageAndHealth_Statistics_Top_Five_Site_URL (
 
 ID INT IDENTITY(1,1),
-Date date,
+"Date Collected" date,
 WebapplicationUrl varchar(max),
 SiteCollectionUrl varchar(max),
 WebSiteURL varchar(max),
