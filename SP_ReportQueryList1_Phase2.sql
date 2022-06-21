@@ -1,6 +1,6 @@
 /*
 PHASE 2
-SharePoint_ReportQueryList1_Phase2.sql
+SP_ReportQueryList1_Phase2.sql
 
 Backend T-SQL
 
