@@ -1,6 +1,6 @@
 /*
 PHASE 3
-ReportingServices_QuerySet1.sql
+RS_QuerySet1_Phase3.sql
 
 Backend T-SQL
 
