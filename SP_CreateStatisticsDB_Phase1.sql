@@ -1,6 +1,6 @@
 /*
 PHASE 1
-SharePoint_CreateStatisticsDB1.sql
+SP_CreateStatisticsDB_Phase1.sql
 
 Create tables to hold SP statistics
 
