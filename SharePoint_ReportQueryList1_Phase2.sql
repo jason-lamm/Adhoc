@@ -1,6 +1,6 @@
 /*
 PHASE 2
-SharePoint_ReportQueryList1.sql
+SharePoint_ReportQueryList1_Phase2.sql
 
 Backend T-SQL
 
@@ -81,16 +81,16 @@ DELETE FROM UsageAndHealth_Statistics_Daily_Unique_Users WHERE "Date Collected" 
 
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
 
-SELECT CONVERT(DATE,CURRENT_TIMESTAMP) AS "Date Collected", ServerURL, FORMAT(logtime,'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
+SELECT CONVERT(DATE,CURRENT_TIMESTAMP) AS "Date Collected", ServerURL, FORMAT(logtime, 'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-GROUP BY FORMAT(logtime,'MM-dd'), DATENAME(WEEKDAY,logtime), ServerURL
+GROUP BY FORMAT(LogTime, 'MM-dd'), DATENAME(WEEKDAY,logtime), ServerURL
 ORDER BY FORMAT(logtime,'MM-dd')
-
-
+--TRUNCATE TABLE UsageAndHealth_Statistics_Daily_Unique_Users
+--SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
 Use Internal_SharePoint
 GO
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
@@ -120,6 +120,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 
 
 --SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
+--TRUNCATE TABLE UsageAndHealth_Statistics_Daily_Unique_Users
 --Takes 00:59 to complete query.
 --Days with 0 results do not return a line
 ---------------------------------------------------------------------------------------------------------------------
