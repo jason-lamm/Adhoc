@@ -5,7 +5,10 @@ SP_CreateStatisticsDB_Phase1.sql
 Create tables to hold SP statistics
 
 6/15/2022		Jason Lamm			Initial
+
 */
+-----Create Database
+CREATE DATABASE Internal_SharePoint
 
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 --Part 1
