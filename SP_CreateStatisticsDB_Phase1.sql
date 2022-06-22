@@ -32,7 +32,7 @@ Create Table UsageAndHealth_Statistics_Daily_Unique_Users (
 ID INT IDENTITY(1,1),
 "Date Collected" date,
 ServerUrl varchar(max),
-"Day" datetime,
+"Day" varchar(max),
 "Day of Week" varchar(max),
 "Unique Users" varchar(max)
 )
