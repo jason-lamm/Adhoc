@@ -74,6 +74,8 @@ DROP TABLE UsageAndHealth_Statistics_Total_Unique_Users_Weekly
 DROP TABLE UsageAndHealth_Statistics_Daily_Unique_Users
 DROP TABLE UsageAndHealth_Statistics_PeakUsage_DateTime
 DROP TABLE UsageAndHealth_Statistics_Top_Five_Site_URL
+
+DROP DATABASE Internal_SharePoint
 */
 
 
