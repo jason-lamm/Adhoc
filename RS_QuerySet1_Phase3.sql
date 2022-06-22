@@ -163,7 +163,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and "Date Collected" =
 /*ORIGINAL
 SELECT TOP 1 FORMAT(logtime,'MM-dd hh tt') AS 'Day', COUNT(DISTINCT(userlogin)) AS UniqueUsers
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
-WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
+WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' /*and siteurl != '/' and siteurl != '' */ and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
