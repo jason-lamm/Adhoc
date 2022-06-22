@@ -11,14 +11,14 @@ Backend T-SQL
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 --Part 1
 ---share.cms.gov 
----ORIGINAL
+/*ORIGINAL
 SELECT count(distinct UserLogin) as "Total Unique Users"
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%'  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-
+*/
 ---NEW
 SELECT "Total Unique Users"
 FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly with(nolock)
@@ -29,14 +29,14 @@ WHERE ServerUrl = 'https://share.cms.gov' and Date =
 
 
 ---------------------------------------------------------------------------------------------
----ORIGINAL
+/*ORIGINAL
 SELECT count(distinct UserLogin) as "Total Unique Users"
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%'  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-
+*/
 ---NEW
 SELECT "Total Unique Users"
 FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly with(nolock)
@@ -45,14 +45,14 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and Date =
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
 ---------------------------------------------------------------------------------------------
----ORIGINAL
+/*ORIGINAL
 SELECT count(distinct UserLogin) as "Total Unique Users"
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%'  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-
+*/
 ---NEW
 SELECT "Total Unique Users"
 FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly with(nolock)
@@ -99,7 +99,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and "Date Collected" =
 /*ORIGINAL
 SELECT FORMAT(logtime,'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
 FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
-WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
+WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' /*and siteurl != '/' and siteurl != ''*/  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
