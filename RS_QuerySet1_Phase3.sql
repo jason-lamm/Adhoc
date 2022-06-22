@@ -76,7 +76,7 @@ SELECT * FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly
 --Part 2
 ---ORIGINAL
 SELECT FORMAT(logtime,'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -86,7 +86,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 
 ---NEW
 SELECT FORMAT(Day,'MM-dd') AS 'Day', DATENAME(WEEK,"Day of Week") AS 'Day of Week', "Unique Users"
-FROM UsageAndHealth_Statistics_Daily_Unique_Users 
+FROM UsageAndHealth_Statistics_Daily_Unique_Users with(nolock)
 WHERE ServerUrl = 'https://share.cms.gov' and "Date Collected" =
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -98,7 +98,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 ---------------------------------------------------------------------------------------------
 
 SELECT FORMAT(logtime,'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -109,7 +109,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 ---------------------------------------------------------------------------------------------
 
 SELECT FORMAT(logtime,'MM-dd') AS 'Day', DATENAME(WEEKDAY,logtime) AS 'Day of Week', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -128,7 +128,7 @@ ORDER BY FORMAT(logtime,'MM-dd')
 --Part 3
 
 SELECT TOP 1 FORMAT(logtime,'MM-dd hh tt') AS 'Day', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -139,7 +139,7 @@ ORDER BY UniqueUsers DESC
 ---------------------------------------------------------------------------------------------
 
 SELECT TOP 1 FORMAT(logtime,'MM-dd hh tt') AS 'Day', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
@@ -150,7 +150,7 @@ ORDER BY UniqueUsers DESC
 ---------------------------------------------------------------------------------------------
 
 SELECT TOP 1 FORMAT(logtime,'MM-dd hh tt') AS 'Day', COUNT(DISTINCT(userlogin)) AS UniqueUsers
-FROM [SP_UsageAndHealth].[dbo].[RequestUsage] 
+FROM [SP_UsageAndHealth].[dbo].[RequestUsage] with(nolock)
 WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  and LogTime <
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
