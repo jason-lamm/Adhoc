@@ -5,7 +5,7 @@ SP_ReportQueryList1_Phase2.sql
 Backend T-SQL
 
 6/15/2022		Jason Lamm			Initial
-
+6/23/2022		"					Implemented fixes, cleanup
 
 *Gathers data from SP Usage database and inserts into internal SharePoint database for retention
 */
@@ -203,7 +203,7 @@ Takes 1:00 to complete query.
 --Part 4
 Use Internal_SharePoint
 GO
-DELETE FROM UsageAndHealth_Statistics_PeakUsage_DateTime WHERE "Date Collected" = 
+DELETE FROM UsageAndHealth_Statistics_Top_Five_Site_URL WHERE "Date Collected" = 
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
