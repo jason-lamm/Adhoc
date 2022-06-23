@@ -5,11 +5,14 @@ SP_CreateStatisticsDB_Phase1.sql
 Create tables to hold SP statistics
 
 6/15/2022		Jason Lamm			Initial
+6/23/2022   "               Implemented fixes
 
+
+**Creates database, tables to hold data.
 */
 -----Create Database
 CREATE DATABASE Internal_SharePoint
-
+GO
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 --Part 1
 Use Internal_SharePoint
