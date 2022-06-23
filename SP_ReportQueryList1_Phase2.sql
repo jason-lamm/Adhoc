@@ -20,7 +20,7 @@ DELETE FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly WHERE "Date" =
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -33,7 +33,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%'  a
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP) 
 )
 GROUP BY ServerURL
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -46,7 +46,7 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
 GROUP BY ServerURL
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -59,7 +59,7 @@ WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%'  a
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
 GROUP BY ServerURL
-
+GO
 --SELECT * FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly
 --Takes 3:45 to complete query
 --Verified insert process
@@ -80,7 +80,7 @@ DELETE FROM UsageAndHealth_Statistics_Daily_Unique_Users WHERE "Date Collected" 
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
-
+GO
 
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
 
@@ -92,6 +92,8 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY FORMAT(LogTime, 'MM-dd'), DATENAME(WEEKDAY,logtime), ServerURL
 ORDER BY FORMAT(logtime,'MM-dd')
+GO
+
 --TRUNCATE TABLE UsageAndHealth_Statistics_Daily_Unique_Users
 --SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
 Use Internal_SharePoint
@@ -106,6 +108,8 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 )
 GROUP BY FORMAT(logtime,'MM-dd'), DATENAME(WEEKDAY,logtime), ServerURL
 ORDER BY FORMAT(logtime,'MM-dd')
+GO
+
 --SELECT ServerURL, UserLogin, siteurl FROM [SP_UsageAndHealth].[dbo].[RequestUsage] WHERE ServerURL = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  
 
 Use Internal_SharePoint
@@ -120,7 +124,7 @@ WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY FORMAT(logtime,'MM-dd'), DATENAME(WEEKDAY,logtime), ServerURL
 ORDER BY FORMAT(logtime,'MM-dd')
-
+GO
 
 --SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
 --TRUNCATE TABLE UsageAndHealth_Statistics_Daily_Unique_Users
@@ -140,6 +144,7 @@ DELETE FROM UsageAndHealth_Statistics_PeakUsage_DateTime WHERE "Date Collected" 
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
+GO
 
 Use Internal_SharePoint
 GO
@@ -153,7 +158,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY FORMAT(logtime,'MM-dd hh tt'), ServerUrl
 ORDER BY UniqueUsers DESC
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -167,7 +172,7 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 )
 GROUP BY FORMAT(logtime,'MM-dd hh tt'), ServerUrl
 ORDER BY UniqueUsers DESC
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -181,6 +186,7 @@ WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY FORMAT(logtime,'MM-dd hh tt'), ServerUrl
 ORDER BY UniqueUsers DESC
+GO
 
 /*
 SELECT * FROM UsageAndHealth_Statistics_PeakUsage_DateTime
@@ -201,6 +207,7 @@ DELETE FROM UsageAndHealth_Statistics_PeakUsage_DateTime WHERE "Date Collected" 
 (
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
+GO
 
 Use Internal_SharePoint
 GO
@@ -214,7 +221,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -228,7 +235,7 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 )
 GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
-
+GO
 
 Use Internal_SharePoint
 GO
@@ -242,7 +249,7 @@ WHERE ServerUrl = 'https://capms.cms.gov' and UserLogin not like '%cms\svc-%' an
 )
 GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
-
+GO
 
 /*
 Query takes 00:24 to complete
