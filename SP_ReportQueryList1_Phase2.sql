@@ -5,6 +5,9 @@ SP_ReportQueryList1_Phase2.sql
 Backend T-SQL
 
 6/15/2022		Jason Lamm			Initial
+
+
+*Gathers data from SP Usage database and inserts into internal SharePoint database for retention
 */
 
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
@@ -243,6 +246,10 @@ ORDER BY Users desc
 
 /*
 Query takes 00:24 to complete
+SELECT * FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly
+SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
+SELECT * FROM UsageAndHealth_Statistics_PeakUsage_DateTime
 SELECT * FROM UsageAndHealth_Statistics_Top_Five_Site_URL
+
 */
 --------------------------------------------------------------------------------------------
