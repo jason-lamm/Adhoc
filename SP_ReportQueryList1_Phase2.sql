@@ -10,6 +10,9 @@ Backend T-SQL
 *Gathers data from SP Usage database and inserts into internal SharePoint database for retention
 */
 
+
+set statistics time on
+GO
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 --Part 1
 
@@ -21,6 +24,10 @@ DELETE FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly WHERE "Date" =
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
 GO
+
+PRINT 'Completed removing duplicates from UsageAndHealth_Statistics_Total_Unique_Users_Weekly table'
+PRINT ''
+PRINT 'Beginning Part 1 Queries'
 
 Use Internal_SharePoint
 GO
@@ -81,6 +88,10 @@ DELETE FROM UsageAndHealth_Statistics_Daily_Unique_Users WHERE "Date Collected" 
 	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
 )
 GO
+
+PRINT 'Completed removing duplicates from UsageAndHealth_Statistics_Daily_Unique_Users table'
+PRINT ''
+PRINT 'Beginning Part 2 Queries'
 
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
 
@@ -146,6 +157,10 @@ DELETE FROM UsageAndHealth_Statistics_PeakUsage_DateTime WHERE "Date Collected" 
 )
 GO
 
+PRINT 'Finished removing duplicates from UsageAndHealth_Statistics_PeakUsage_DateTime table'
+PRINT ''
+PRINT 'Beginning Part 3 Queries'
+
 Use Internal_SharePoint
 GO
 INSERT INTO UsageAndHealth_Statistics_PeakUsage_DateTime ("Date Collected", "ServerUrl", Day, "UniqueUsers")
@@ -209,6 +224,10 @@ DELETE FROM UsageAndHealth_Statistics_Top_Five_Site_URL WHERE "Date Collected" =
 )
 GO
 
+PRINT 'Completed removing duplicates from UsageAndHealth_Statistics_Top_Five_Site_URL table'
+PRINT ''
+PRINT 'Beginning Part 4 Queries'
+
 Use Internal_SharePoint
 GO
 INSERT INTO UsageAndHealth_Statistics_Top_Five_Site_URL ("Date Collected", WebapplicationUrl, SiteCollectionUrl, WebSiteURL, Users)
@@ -260,3 +279,6 @@ SELECT * FROM UsageAndHealth_Statistics_Top_Five_Site_URL
 
 */
 --------------------------------------------------------------------------------------------
+
+set statistics time off
+GO
