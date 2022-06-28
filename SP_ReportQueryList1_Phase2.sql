@@ -11,8 +11,8 @@ Backend T-SQL
 */
 
 
-set statistics time on
-GO
+
+SET QUOTED_IDENTIFIER ON; 
 --------------------------TOTAL UNIQUE USERS-------------------------------------------------------------------------
 --Part 1
 
@@ -280,5 +280,4 @@ SELECT * FROM UsageAndHealth_Statistics_Top_Five_Site_URL
 */
 --------------------------------------------------------------------------------------------
 
-set statistics time off
-GO
+
