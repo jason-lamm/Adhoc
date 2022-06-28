@@ -270,6 +270,8 @@ GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
 GO
 
+
+PRINT 'COMPLETED'
 /*
 Query takes 00:24 to complete
 SELECT * FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly
