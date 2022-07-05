@@ -129,37 +129,74 @@ SELECT * FROM UsageAndHealth_Statistics_PeakUsage_DateTime
 
 --------------------------------Top Five Site URL----------------------------------------------------------------------
 --Part 4
+SELECT [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users 
+FROM
+  (
+ SELECT TOP (5) [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users
+  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  WHERE WebapplicationUrl = 'https://share.cms.gov'
+  ORDER BY ID desc
+  )
+ 
+UsageAndHealth_Statistics_Top_Five_Site_URL
+ORDER BY USERS DESC
 
-SELECT WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-FROM UsageAndHealth_Statistics_Top_Five_Site_URL with(nolock)
-WHERE WebapplicationUrl = 'https://share.cms.gov' and "Date Collected" =
-(
-	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
-)
-GROUP BY WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-ORDER BY Users desc
 
+---
+SELECT [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users 
+FROM
+  (
+ SELECT TOP (5) [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users
+  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  WHERE WebapplicationUrl = 'https://cmsintranet.share.cms.gov'
+  ORDER BY ID desc
+  )
+ 
+UsageAndHealth_Statistics_Top_Five_Site_URL
+ORDER BY USERS DESC
 
-
-SELECT WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-FROM UsageAndHealth_Statistics_Top_Five_Site_URL with(nolock)
-WHERE WebapplicationUrl = 'https://cmsintranet.share.cms.gov' and "Date Collected" =
-(
-	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
-)
-GROUP BY WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-ORDER BY Users desc
-
-
-
-SELECT WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-FROM UsageAndHealth_Statistics_Top_Five_Site_URL with(nolock)
-WHERE WebapplicationUrl = 'https://capms.cms.gov' and "Date Collected" =
-(
-	SELECT CONVERT(DATE,CURRENT_TIMESTAMP)
-)
-GROUP BY WebapplicationUrl, SiteCollectionURL, WebSiteURL, Users
-ORDER BY Users desc
+---
+SELECT [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users 
+FROM
+  (
+ SELECT TOP (5) [ID]
+      ,[Date Collected]
+      ,[WebapplicationUrl]
+      ,[SiteCollectionUrl]
+      ,[WebSiteURL]
+      ,CONVERT(INT, [Users]) Users
+  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  WHERE WebapplicationUrl = 'https://capms.cms.gov'
+  ORDER BY ID desc
+  )
+ 
+UsageAndHealth_Statistics_Top_Five_Site_URL
+ORDER BY USERS DESC
 
 
 /*
