@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON;
 --Part 1
 
 --Cleanup duplicates
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 DELETE FROM UsageAndHealth_Statistics_Total_Unique_Users_Weekly WHERE "Date" = 
 (
@@ -29,7 +29,7 @@ PRINT 'Completed removing duplicates from UsageAndHealth_Statistics_Total_Unique
 PRINT ''
 PRINT 'Beginning Part 1 Queries'
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Total_Unique_Users_Weekly (Date, ServerUrl, "Total Unique Users")
 
@@ -42,7 +42,7 @@ WHERE ServerUrl = 'https://share.cms.gov' and UserLogin not like '%cms\svc-%'  a
 GROUP BY ServerURL
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Total_Unique_Users_Weekly (Date, ServerUrl, "Total Unique Users")
 
@@ -55,7 +55,7 @@ WHERE ServerUrl = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%c
 GROUP BY ServerURL
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Total_Unique_Users_Weekly (Date, ServerUrl, "Total Unique Users")
 
