@@ -7,7 +7,8 @@ Backend T-SQL
 6/15/2022		Jason Lamm			Initial
 6/23/2022		"					Implemented fixes, cleanup
 
-*Gathers data from SP Usage database and inserts into internal SharePoint database for retention
+*Gathers data from SP Usage database and inserts into AST_Internal_UsageHealth database for retention. Execute this query on the data server with the
+Usage and Health database and AST_Internal_UsageHealth
 */
 
 
