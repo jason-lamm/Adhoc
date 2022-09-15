@@ -107,7 +107,7 @@ GO
 
 --TRUNCATE TABLE UsageAndHealth_Statistics_Daily_Unique_Users
 --SELECT * FROM UsageAndHealth_Statistics_Daily_Unique_Users
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
 
