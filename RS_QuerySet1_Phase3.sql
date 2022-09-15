@@ -8,7 +8,7 @@ ReportingServices_QuerySet1.sql
 6/23/2022		"					Implemented Fixes, cleanup
 
 
-Queries for Reporting Services
+Queries for Reporting Services and Power BI. Provide these queries to BJ for the front end.
 */
 
 
