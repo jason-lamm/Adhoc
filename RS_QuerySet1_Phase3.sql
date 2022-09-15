@@ -143,7 +143,7 @@ FROM
       ,[SiteCollectionUrl]
       ,[WebSiteURL]
       ,CONVERT(INT, [Users]) Users
-  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  FROM [AST_Internal_UsageHealth].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
   WHERE WebapplicationUrl = 'https://share.cms.gov'
   ORDER BY ID desc
   )
@@ -167,7 +167,7 @@ FROM
       ,[SiteCollectionUrl]
       ,[WebSiteURL]
       ,CONVERT(INT, [Users]) Users
-  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  FROM [AST_Internal_UsageHealth].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
   WHERE WebapplicationUrl = 'https://cmsintranet.share.cms.gov'
   ORDER BY ID desc
   )
@@ -190,7 +190,7 @@ FROM
       ,[SiteCollectionUrl]
       ,[WebSiteURL]
       ,CONVERT(INT, [Users]) Users
-  FROM [Internal_SharePoint].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
+  FROM [AST_Internal_UsageHealth].[dbo].[UsageAndHealth_Statistics_Top_Five_Site_URL]
   WHERE WebapplicationUrl = 'https://capms.cms.gov'
   ORDER BY ID desc
   )
