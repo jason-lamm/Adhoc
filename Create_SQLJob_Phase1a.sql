@@ -1,3 +1,21 @@
+/*
+Phase 1a
+
+Create_SQLJob_Phase1a.sql
+
+This script creates the SQL Agent Job and schedule.
+
+Steps:
+1. Run this query.
+2. Open Agent Job in SSMS then change the step to query in Phase 2.
+
+
+
+*/
+
+
+
+
 USE [msdb]
 GO
 
