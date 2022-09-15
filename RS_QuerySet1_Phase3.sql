@@ -11,8 +11,8 @@ RS_QuerySet1_Phase3.sql
 Queries for Reporting Services and Power BI. Provide these queries to BJ for the front end.
 
 
-1. Replace ServerUrl with ServerUrl from environment this process is being ran. Simply search for current one in script and replace with correct
-one from environment.
+1. Replace ServerUrl with ServerUrl from environment this process is being ran. Simply search and then replace. Here is list of Urls included in this base script:
+
 											2019 DEV Sandbox
 https://share.cms.gov						https://share-devsb.cms.gov
 https://cmsintranet.share.cms.gov			https://cmsintranet.share-devsb.cms.gov
