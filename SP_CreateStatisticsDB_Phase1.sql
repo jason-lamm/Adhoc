@@ -79,7 +79,7 @@ DROP TABLE UsageAndHealth_Statistics_Daily_Unique_Users
 DROP TABLE UsageAndHealth_Statistics_PeakUsage_DateTime
 DROP TABLE UsageAndHealth_Statistics_Top_Five_Site_URL
 
-DROP DATABASE Internal_SharePoint
+DROP DATABASE AST_Internal_UsageHealth
 */
 
 
