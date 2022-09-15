@@ -81,7 +81,7 @@ GO
 --------------------------DAILY UNIQUE USERS-------------------------------------------------------------------------
 --Part 2
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 DELETE FROM UsageAndHealth_Statistics_Daily_Unique_Users WHERE "Date Collected" = 
 (
@@ -123,7 +123,7 @@ GO
 
 --SELECT ServerURL, UserLogin, siteurl FROM [SP_UsageAndHealth].[dbo].[RequestUsage] WHERE ServerURL = 'https://cmsintranet.share.cms.gov' and UserLogin not like '%cms\svc-%' and siteurl != '/' and siteurl != ''  
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Daily_Unique_Users ("Date Collected", ServerURL, Day, "Day of Week", "Unique Users")
 
@@ -149,7 +149,7 @@ GO
 
 ----------------------------Peak Usage Date/Time--------------------------------------------------------------------
 --Part 3
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 DELETE FROM UsageAndHealth_Statistics_PeakUsage_DateTime WHERE "Date Collected" = 
 (
@@ -161,7 +161,7 @@ PRINT 'Finished removing duplicates from UsageAndHealth_Statistics_PeakUsage_Dat
 PRINT ''
 PRINT 'Beginning Part 3 Queries'
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_PeakUsage_DateTime ("Date Collected", "ServerUrl", Day, "UniqueUsers")
 
@@ -175,7 +175,7 @@ GROUP BY FORMAT(logtime,'MM-dd hh tt'), ServerUrl
 ORDER BY UniqueUsers DESC
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_PeakUsage_DateTime ("Date Collected", "ServerUrl", Day, "UniqueUsers")
 
@@ -189,7 +189,7 @@ GROUP BY FORMAT(logtime,'MM-dd hh tt'), ServerUrl
 ORDER BY UniqueUsers DESC
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_PeakUsage_DateTime ("Date Collected", "ServerUrl", Day, "UniqueUsers")
 
@@ -216,7 +216,7 @@ Takes 1:00 to complete query.
 
 --------------------------------Top Five Site URL----------------------------------------------------------------------
 --Part 4
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 DELETE FROM UsageAndHealth_Statistics_Top_Five_Site_URL WHERE "Date Collected" = 
 (
@@ -228,7 +228,7 @@ PRINT 'Completed removing duplicates from UsageAndHealth_Statistics_Top_Five_Sit
 PRINT ''
 PRINT 'Beginning Part 4 Queries'
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Top_Five_Site_URL ("Date Collected", WebapplicationUrl, SiteCollectionUrl, WebSiteURL, Users)
 
@@ -242,7 +242,7 @@ GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Top_Five_Site_URL ("Date Collected", WebapplicationUrl, SiteCollectionUrl, WebSiteURL, Users)
 
@@ -256,7 +256,7 @@ GROUP BY ServerUrl,SiteUrl,WebUrl
 ORDER BY Users desc
 GO
 
-Use Internal_SharePoint
+Use AST_Internal_UsageHealth
 GO
 INSERT INTO UsageAndHealth_Statistics_Top_Five_Site_URL ("Date Collected", WebapplicationUrl, SiteCollectionUrl, WebSiteURL, Users)
 
