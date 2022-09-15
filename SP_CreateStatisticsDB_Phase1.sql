@@ -2,15 +2,15 @@
 PHASE 1
 SP_CreateStatisticsDB_Phase1.sql
 
-Create tables to hold SP statistics
+Create database tables to hold SP Usage & Health Statistics. Execute this Query on the data server that is to store the data.
 
 6/15/2022		Jason Lamm			Initial
 6/23/2022   "               Implemented fixes
 9/15/2022   "               Renamed database
 
-
-**Creates database, tables to hold data.
 */
+
+
 -----Create Database
 CREATE DATABASE AST_Internal_UsageHealth
 GO
