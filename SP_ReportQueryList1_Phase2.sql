@@ -8,8 +8,14 @@ Backend T-SQL
 6/23/2022		"					Implemented fixes, cleanup
 
 *Gathers data from SP Usage database and inserts into AST_Internal_UsageHealth database for retention. Execute this query on the data server with the
-Usage and Health database and AST_Internal_UsageHealth. This query needs to be added as a step of a SQL Agent job with schedule set.
+Usage and Health database and AST_Internal_UsageHealth. 
+
+
+1. Adjust variables to corrupt URLs.
+1. This query needs to be added as a step of a SQL Agent job with schedule set.
 */
+
+
 SET QUOTED_IDENTIFIER ON; 
 
 --Prepare Variables
