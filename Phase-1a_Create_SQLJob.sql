@@ -1,7 +1,7 @@
 /*
 Phase 1a
 
-Create_SQLJob_Phase1a.sql
+Phase-1a_Create_SQLJob.sql
 
 This script creates the SQL Agent Job and schedule.
 
