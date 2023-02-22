@@ -11,7 +11,7 @@ Backend T-SQL
 Usage and Health database and AST_Internal_UsageHealth. 
 
 
-1. Adjust variables to correct URLs.
+1. Adjust variables to correct URLs. -Declare variable section
 1. This query needs to be added as a step of a SQL Agent job with schedule set.
 */
 
