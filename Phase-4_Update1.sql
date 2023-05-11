@@ -1,9 +1,10 @@
 --Creates views to add additional functionality to Executive Dashboard.
 
   --Create view with detailed query
+--There are two views. Run create view command independently. Switch to Ast_Internal database first.
+ 
+ 
 
- Use AST_Internal_UsageHealth
-GO
 CREATE VIEW vw_UsageAndHealth_Statistics_Daily_Unique_Users_v1 AS
   SELECT [ID]
       ,[Date Collected]
@@ -138,8 +139,7 @@ END AS "Year"
 
   
   
- Use AST_Internal_UsageHealth
-GO
+
 CREATE VIEW vw_UsageAndHealth_Statistics_PeakUsage_DateTime_v1 AS
   SELECT [ID]
       ,[Date Collected]
