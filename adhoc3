@@ -1,0 +1,10 @@
+USE YourDatabaseName;
+GO
+
+-- Find columns that use symmetric key encryption
+SELECT t.name AS TableName, c.name AS ColumnName, c.encryption_type_desc, sk.name AS SymmetricKeyName
+FROM sys.columns c
+JOIN sys.tables t ON c.object_id = t.object_id
+JOIN sys.encryption_keys ek ON c.encryption_key_id = ek.encryption_key_id
+JOIN sys.symmetric_keys sk ON ek.symmetric_key_id = sk.symmetric_key_id
+WHERE c.encryption_type_desc = 'DETERMINISTIC' OR c.encryption_type_desc = 'RANDOMIZED';
