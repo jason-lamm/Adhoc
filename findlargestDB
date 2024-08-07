@@ -1,0 +1,16 @@
+USE master;
+GO
+
+SELECT
+    d.name AS DatabaseName,
+    SUM(mf.size) * 8 / 1024 AS SizeMB
+FROM
+    sys.databases d
+INNER JOIN
+    sys.master_files mf ON d.database_id = mf.database_id
+WHERE
+    d.state_desc = 'ONLINE'
+GROUP BY
+    d.name
+ORDER BY
+    SizeMB DESC;
