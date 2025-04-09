@@ -9,3 +9,6 @@ CREATE TABLE ProdLatencyReport (
     ServerUrl  NVARCHAR(2083) NOT NULL,
     Duration   INT NOT NULL
 );
+
+
+--2025-04-08 00:47:32.897
