@@ -12,3 +12,10 @@ CREATE TABLE ProdLatencyReport (
 
 
 --2025-04-08 00:47:32.897
+
+--SELECT
+      [LogTime]
+      ,[ServerUrl]
+      ,[Duration]
+	 
+  FROM [SP_UsageAndHealth].[dbo].[RequestUsage]
