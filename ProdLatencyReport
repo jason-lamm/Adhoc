@@ -1,0 +1,8 @@
+USE AST_Internal_UsageHealth;
+GO
+
+CREATE TABLE ProdLatencyReport (
+    LogTime    DATETIME NOT NULL,
+    ServerUrl  NVARCHAR(2083) NOT NULL,
+    Duration   INT NOT NULL
+);
