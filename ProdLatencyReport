@@ -3,21 +3,29 @@
 USE [AST_Internal_UsageHealth];
 GO
 
--- DROP TABLE [AST_Internal_UsageHealth].dbo.ProdLatencyReport;
-CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdLatencyReport (
+-- DROP TABLE [AST_Internal_UsageHealth].dbo.ProdSiteLatency;
+CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdSiteLatency (
     LogTime    DATETIME,
     ServerUrl  NVARCHAR(500),
     Duration   INT
 );
 
+-- DROP TABLE [AST_Internal_UsageHealth].dbo.ProdLatencySummary;
+CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdLatencySummary (
+    ReportDate DATE,
+    ServerUrl  NVARCHAR(500),
+    AvgDurationMs INT
+);
+
 
 --Section 2
--- Delete rows older than 3 days from the destination table
-DELETE FROM [AST_Internal_UsageHealth].dbo.ProdLatencyReport
+
+--- Delete rows older than 3 days from the raw data table
+DELETE FROM [AST_Internal_UsageHealth].dbo.ProdSiteLatency
 WHERE LogTime < DATEADD(DAY, -3, GETDATE());
 
--- Insert rows from the full prior calendar day
-INSERT INTO [AST_Internal_UsageHealth].dbo.ProdLatencyReport (LogTime, ServerUrl, Duration)
+-- Insert prior day's raw request data
+INSERT INTO [AST_Internal_UsageHealth].dbo.ProdSiteLatency (LogTime, ServerUrl, Duration)
 SELECT
     [LogTime],
     [ServerUrl],
@@ -25,13 +33,13 @@ SELECT
 FROM [SP_UsageAndHealth].dbo.RequestUsage
 WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE);
 
-
---Section 3
-
+-- Insert prior day's average duration summary into summary table
+INSERT INTO [AST_Internal_UsageHealth].dbo.ProdLatencySummary (ReportDate, ServerUrl, AvgDurationMs)
 SELECT
+    CAST(DATEADD(DAY, -1, GETDATE()) AS DATE) AS ReportDate,
     ServerUrl,
     AVG(Duration) AS AvgDurationMs
-FROM [AST_Internal_UsageHealth].dbo.ProdLatencyReport
+FROM [AST_Internal_UsageHealth].dbo.ProdSiteLatency
 WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
   AND ServerUrl IN (
       'https://share.com',
@@ -39,7 +47,7 @@ WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
       'https://site3.com',
       'https://site4.com'
   )
-GROUP BY ServerUrl
-ORDER BY ServerUrl;
+GROUP BY ServerUrl;
+
 
 
