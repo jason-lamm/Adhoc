@@ -53,7 +53,43 @@ WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
       'https://capms.cms.gov',
       'https://mysite.share.cms.gov'
   )
+
 GROUP BY ServerUrl;
+
+----------------------------------------------------------
+Option 1: Use SQL Server Agent Job with a PowerShell Step
+Run a PowerShell script that:
+
+Executes a SQL query
+
+Saves results to CSV
+
+Sends the email with the attachment
+
+
+
+# Parameters
+$reportDate = (Get-Date).AddDays(-1).ToString('yyyyMMdd')
+$outputPath = "C:\Temp\LatencySummary_$reportDate.csv"
+$query = @"
+SELECT ServerUrl, AvgDurationMs
+FROM [AST_Internal_UsageHealth].dbo.ProdLatencySummary
+WHERE ReportDate = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
+"@
+
+# Export to CSV
+Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance "YourSQLServerName" |
+    Export-Csv -Path $outputPath -NoTypeInformation
+
+# Send email (requires Send-MailMessage or your mail method of choice)
+Send-MailMessage -From "reporting@yourdomain.com" `
+    -To "you@yourdomain.com" `
+    -Subject "Latency Summary $reportDate" `
+    -Body "Attached is the latency summary for $reportDate." `
+    -SmtpServer "your.smtp.server" `
+    -Attachments $outputPath
+
+
 
 
 
