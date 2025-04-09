@@ -20,18 +20,24 @@ CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdLatencySummary (
 
 --Section 2
 
---- Delete rows older than 3 days from the raw data table
+-- Delete rows older than 3 days from the raw data table
 DELETE FROM [AST_Internal_UsageHealth].dbo.ProdSiteLatency
 WHERE LogTime < DATEADD(DAY, -3, GETDATE());
 
--- Insert prior day's raw request data
+-- Insert prior day's raw request data (filtered by specific ServerUrls)
 INSERT INTO [AST_Internal_UsageHealth].dbo.ProdSiteLatency (LogTime, ServerUrl, Duration)
 SELECT
     [LogTime],
     [ServerUrl],
     [Duration]
 FROM [SP_UsageAndHealth].dbo.RequestUsage
-WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE);
+WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
+  AND ServerUrl IN (
+      'https://share.cms.gov',
+      'https://cmsintranet.share.cms.gov',
+      'https://capms.cms.gov',
+      'https://mysite.share.cms.gov'
+  );
 
 -- Insert prior day's average duration summary into summary table
 INSERT INTO [AST_Internal_UsageHealth].dbo.ProdLatencySummary (ReportDate, ServerUrl, AvgDurationMs)
@@ -42,11 +48,13 @@ SELECT
 FROM [AST_Internal_UsageHealth].dbo.ProdSiteLatency
 WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
   AND ServerUrl IN (
-      'https://share.com',
-      'https://cmsintranet.share.com',
-      'https://site3.com',
-      'https://site4.com'
+      'https://share.cms.gov',
+      'https://cmsintranet.share.cms.gov',
+      'https://capms.cms.gov',
+      'https://mysite.share.cms.gov'
   )
+GROUP BY ServerUrl;
+
 GROUP BY ServerUrl;
 
 
