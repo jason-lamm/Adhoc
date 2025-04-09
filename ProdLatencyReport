@@ -87,15 +87,17 @@ WHERE ReportDate = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
 "@
 
 # Export CSV
-Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance "YourSQLServerName" |
+Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance "SHR-PRODLSTNR1" |
     Export-Csv -Path $outputPath -NoTypeInformation
 
-# Send email
+# Send Email
 Send-MailMessage -From "reporting@yourdomain.com" `
-    -To $operatorEmail `
+    -To "jason.lamm@cms.hhs.gov" `
     -Subject "Latency Summary $reportDate" `
     -Body "Attached is the latency summary for $reportDate." `
-    -SmtpServer "your.smtp.server" `
+    -SmtpServer "mag.smtp.cloud.internal.cms.gov" `
+    -Port 587 `
+    -UseSsl `
     -Attachments $outputPath
 
 
