@@ -1,21 +1,26 @@
-USE AST_Internal_UsageHealth;
+USE [AST_Internal_UsageHealth];
 GO
 
--- DROP TABLE ProdLatencyReport;
--- Uncomment the line above if you need to drop and recreate the table.
-
-CREATE TABLE ProdLatencyReport (
-    LogTime    DATETIME NOT NULL,
-    ServerUrl  NVARCHAR(2083) NOT NULL,
-    Duration   INT NOT NULL
+-- DROP TABLE [AST_Internal_UsageHealth].dbo.ProdLatencyReport;
+CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdLatencyReport (
+    LogTime    DATETIME,
+    ServerUrl  NVARCHAR(500),
+    Duration   INT
 );
 
 
---2025-04-08 00:47:32.897
 
---SELECT
-      [LogTime]
-      ,[ServerUrl]
-      ,[Duration]
-	 
-  FROM [SP_UsageAndHealth].[dbo].[RequestUsage]
+-- Delete rows older than 3 days from the destination table
+DELETE FROM [AST_Internal_UsageHealth].dbo.ProdLatencyReport
+WHERE LogTime < DATEADD(DAY, -3, GETDATE());
+
+-- Insert rows from the full prior calendar day
+INSERT INTO [AST_Internal_UsageHealth].dbo.ProdLatencyReport (LogTime, ServerUrl, Duration)
+SELECT
+    [LogTime],
+    [ServerUrl],
+    [Duration]
+FROM [SP_UsageAndHealth].dbo.RequestUsage
+WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE);
+
+
