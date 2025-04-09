@@ -55,7 +55,5 @@ WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
   )
 GROUP BY ServerUrl;
 
-GROUP BY ServerUrl;
-
 
 
