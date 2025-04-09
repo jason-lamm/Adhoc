@@ -40,6 +40,7 @@ WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
   );
 
 -- Insert prior day's average duration summary into summary table
+Truncate TABLE [AST_Internal_UsageHealth].dbo.ProdLatencySummary
 INSERT INTO [AST_Internal_UsageHealth].dbo.ProdLatencySummary (ReportDate, ServerUrl, AvgDurationMs)
 SELECT
     CAST(DATEADD(DAY, -1, GETDATE()) AS DATE) AS ReportDate,
