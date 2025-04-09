@@ -1,3 +1,5 @@
+
+--Section 1
 USE [AST_Internal_UsageHealth];
 GO
 
@@ -9,7 +11,7 @@ CREATE TABLE [AST_Internal_UsageHealth].dbo.ProdLatencyReport (
 );
 
 
-
+--Section 2
 -- Delete rows older than 3 days from the destination table
 DELETE FROM [AST_Internal_UsageHealth].dbo.ProdLatencyReport
 WHERE LogTime < DATEADD(DAY, -3, GETDATE());
@@ -22,5 +24,22 @@ SELECT
     [Duration]
 FROM [SP_UsageAndHealth].dbo.RequestUsage
 WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE);
+
+
+--Section 3
+
+SELECT
+    ServerUrl,
+    AVG(Duration) AS AvgDurationMs
+FROM [AST_Internal_UsageHealth].dbo.ProdLatencyReport
+WHERE CONVERT(DATE, LogTime) = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
+  AND ServerUrl IN (
+      'https://share.com',
+      'https://cmsintranet.share.com',
+      'https://site3.com',
+      'https://site4.com'
+  )
+GROUP BY ServerUrl
+ORDER BY ServerUrl;
 
 
