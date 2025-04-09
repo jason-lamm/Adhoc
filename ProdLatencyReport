@@ -1,6 +1,9 @@
 USE AST_Internal_UsageHealth;
 GO
 
+-- DROP TABLE ProdLatencyReport;
+-- Uncomment the line above if you need to drop and recreate the table.
+
 CREATE TABLE ProdLatencyReport (
     LogTime    DATETIME NOT NULL,
     ServerUrl  NVARCHAR(2083) NOT NULL,
