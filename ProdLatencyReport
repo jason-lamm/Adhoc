@@ -72,12 +72,6 @@ Sends the email with the attachment
 $reportDate = (Get-Date).AddDays(-1).ToString('yyyyMMdd')
 $outputPath = "C:\Temp\LatencySummary_$reportDate.csv"
 
-# Get email address for SQL Agent Operator named 'LatencyReporter'
-$operatorEmail = Invoke-Sqlcmd -Query "
-    SELECT email_address
-    FROM msdb.dbo.sysoperators
-    WHERE name = 'LatencyReporter'
-" -Database "msdb" -ServerInstance "YourSQLServerName" | Select-Object -ExpandProperty email_address
 
 # Query to get latency summary
 $query = @"
@@ -90,7 +84,7 @@ WHERE ReportDate = CAST(DATEADD(DAY, -1, GETDATE()) AS DATE)
 Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance "SHR-PRODLSTNR1" |
     Export-Csv -Path $outputPath -NoTypeInformation
 
-# Send Email
+# Send email
 Send-MailMessage -From "reporting@yourdomain.com" `
     -To "jason.lamm@cms.hhs.gov" `
     -Subject "Latency Summary $reportDate" `
