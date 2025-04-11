@@ -1,0 +1,27 @@
+--Section 1
+-- Optional: Drop if it already exists during dev/test
+-- DROP TABLE dbo.PBRS_ReportMetadata;
+
+CREATE TABLE dbo.PBRS_ReportMetadata (
+    Name NVARCHAR(425),
+    Path NVARCHAR(425),
+    CreatedBy NVARCHAR(100),
+    UserName NVARCHAR(100),
+    CreationDate DATETIME,
+    ModifiedDate DATETIME
+);
+
+
+
+--Section 2
+INSERT INTO dbo.PBRS_ReportMetadata (Name, Path, CreatedBy, UserName, CreationDate, ModifiedDate)
+SELECT
+    c.Name,
+    c.Path,
+    LEFT(u.UserName, CHARINDEX('\', u.UserName) - 1) AS CreatedBy,
+    SUBSTRING(u.UserName, CHARINDEX('\', u.UserName) + 1, LEN(u.UserName)) AS UserName,
+    c.CreationDate,
+    c.ModifiedDate
+FROM dbo.Catalog c
+JOIN dbo.Users u
+    ON c.CreatedByID = u.UserID;
