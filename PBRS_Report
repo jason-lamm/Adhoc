@@ -14,6 +14,9 @@ CREATE TABLE dbo.PBRS_ReportMetadata (
 
 
 --Section 2
+USE AST_Internal_UsageHealth;
+GO
+
 INSERT INTO dbo.PBRS_ReportMetadata (Name, Path, CreatedBy, UserName, CreationDate, ModifiedDate)
 SELECT
     c.Name,
@@ -22,6 +25,7 @@ SELECT
     SUBSTRING(u.UserName, CHARINDEX('\', u.UserName) + 1, LEN(u.UserName)) AS UserName,
     c.CreationDate,
     c.ModifiedDate
-FROM dbo.Catalog c
-JOIN dbo.Users u
+FROM PBRS_ReportServer.dbo.Catalog c
+JOIN PBRS_ReportServer.dbo.Users u
     ON c.CreatedByID = u.UserID;
+
