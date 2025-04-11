@@ -21,8 +21,8 @@ INSERT INTO dbo.PBRS_ReportMetadata (Name, Path, CreatedBy, UserName, CreationDa
 SELECT
     c.Name,
     c.Path,
-    LEFT(u.UserName, CHARINDEX('\', u.UserName) - 1) AS CreatedBy,
-    SUBSTRING(u.UserName, CHARINDEX('\', u.UserName) + 1, LEN(u.UserName)) AS UserName,
+    u.UserName AS CreatedBy,
+    NULL AS UserName,
     c.CreationDate,
     c.ModifiedDate
 FROM PBRS_ReportServer.dbo.Catalog c
