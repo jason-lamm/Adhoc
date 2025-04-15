@@ -52,7 +52,7 @@ Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance
 
 # Send email
 Send-MailMessage -From "reporting@yourdomain.com" `
-    -To "MyEmail" `
+    -To "jason.lamm@cms.hhs.gov" `
     -Subject "PBRS Report" `
     -Body "Attached is the PBRS report metadata export for $reportDate." `
     -SmtpServer "SMTPSERVERNAME" `
