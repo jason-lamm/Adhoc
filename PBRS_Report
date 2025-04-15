@@ -35,3 +35,30 @@ JOIN PBRS_ReportServer.dbo.Users u
 
 
 
+--Section 3
+# Set parameters
+$reportDate = (Get-Date).ToString('yyyyMMdd')
+$outputPath = "C:\Temp\PBRS_ReportMetadata_$reportDate.csv"
+
+# Query to get report metadata
+$query = @"
+SELECT Name, Path, CreatedBy, CreationDate, ModifiedDate
+FROM [AST_Internal_UsageHealth].dbo.PBRS_ReportMetadata
+"@
+
+# Export CSV
+Invoke-Sqlcmd -Query $query -Database "AST_Internal_UsageHealth" -ServerInstance "SHR-PRODLSTNR1" |
+    Export-Csv -Path $outputPath -NoTypeInformation
+
+# Send email
+Send-MailMessage -From "reporting@yourdomain.com" `
+    -To "MyEmail" `
+    -Subject "PBRS Report" `
+    -Body "Attached is the PBRS report metadata export for $reportDate." `
+    -SmtpServer "SMTPSERVERNAME" `
+    -Port 587 `
+    -UseSsl `
+    -Attachments $outputPath
+
+
+
