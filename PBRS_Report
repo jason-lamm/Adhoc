@@ -61,4 +61,9 @@ Send-MailMessage -From "reporting@yourdomain.com" `
     -Attachments $outputPath
 
 
+# Cleanup: Remove PBRS report files older than 3 days
+Get-ChildItem -Path "C:\Temp" -Filter "PBRS_ReportMetadata_*.csv" |
+    Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-3) } |
+    Remove-Item -Force
+
 
