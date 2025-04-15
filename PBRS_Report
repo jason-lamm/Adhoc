@@ -55,7 +55,7 @@ Send-MailMessage -From "reporting@yourdomain.com" `
     -To "jason.lamm@cms.hhs.gov" `
     -Subject "PBRS Report" `
     -Body "Attached is the PBRS report metadata export for $reportDate." `
-    -SmtpServer "SMTPSERVERNAME" `
+    -SmtpServer "mag.smtp.cloud.internal.cms.gov" `
     -Port 587 `
     -UseSsl `
     -Attachments $outputPath
