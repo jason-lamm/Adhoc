@@ -6,10 +6,10 @@ CREATE TABLE dbo.PBRS_ReportMetadata (
     Name NVARCHAR(425),
     Path NVARCHAR(425),
     CreatedBy NVARCHAR(100),
-    UserName NVARCHAR(100),
     CreationDate DATETIME,
     ModifiedDate DATETIME
 );
+
 
 
 
@@ -22,16 +22,16 @@ TRUNCATE TABLE AST_Internal_UsageHealth.dbo.PBRS_ReportMetadata;
 GO
 
 -- Insert latest metadata from PBRS_ReportServer
-INSERT INTO AST_Internal_UsageHealth.dbo.PBRS_ReportMetadata (Name, Path, CreatedBy, UserName, CreationDate, ModifiedDate)
+INSERT INTO AST_Internal_UsageHealth.dbo.PBRS_ReportMetadata (Name, Path, CreatedBy, CreationDate, ModifiedDate)
 SELECT
     c.Name,
     c.Path,
     u.UserName AS CreatedBy,
-    NULL AS UserName,
     c.CreationDate,
     c.ModifiedDate
 FROM PBRS_ReportServer.dbo.Catalog c
 JOIN PBRS_ReportServer.dbo.Users u
     ON c.CreatedByID = u.UserID;
+
 
 
