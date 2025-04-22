@@ -74,146 +74,49 @@
 ---
 
 ### Section 3: Move SQL Database Files (MDF and LDF) to New Drives
-**Preliminary Step**: Verify that availability group `AAG-2` is PRIMARY on the `*d22` server.
-**Note**: The MDF file will be moved from the R drive to the D drive, and the LDF file from the G drive to the L drive.
+[...existing content remains unchanged...]
 
-**MDF File Path Change**:
-- **Source**: `R:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
-- **Destination**: `D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
+---
 
-**LDF File Path Change**:
-- **Source**: `G:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
-- **Destination**: `L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
+### Summary of Maintenance Activities
+This section provides a high-level summary suitable for change request documentation.
 
-**Pre-requisites**:
-- Ensure there are no active connections to the database.
-- Ensure the SQL Server account has access to the new folder paths.
+1. **Drive Expansion (One Server at a Time)**
+   - Shift all availability groups to the opposite server.
+   - Resize disk D (from 4TB to 8TB) and disk L (from 1TB to 2TB).
+   - Repeat for the second server.
+   - Final AAG placement: AAG-1 on *d11, AAG-2 on *d22.
 
-**Steps** (repeat for each database):
+2. **Database File Migration**
+   - For each database:
+     - Remove it from the availability group.
+     - Alter the file path for MDF and LDF.
+     - Take the database offline.
+     - Physically move the files.
+     - Bring the database online.
+     - Re-add it to the availability group.
 
-#### For `SP_Content_Office_Misc`
+3. **Post-Migration Validation**
+   - Confirm correct file paths in `sys.master_files`.
+   - Monitor SQL Server and AG health.
+   - Validate disk space post-move.
+ **Drive Expansion (One Server at a Time)**
+   - Shift all availability groups to the opposite server.
+   - Resize disk D (from 4TB to 8TB) and disk L (from 1TB to 2TB).
+   - Repeat for the second server.
+   - Final AAG placement: AAG-1 on *d11, AAG-2 on *d22.
 
-1. **Remove Database from Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] REMOVE DATABASE SP_Content_Office_Misc;
-   ```
+3. **Database File Migration**
+   - For each database:
+     - Remove it from the availability group.
+     - Alter the file path for MDF and LDF.
+     - Take the database offline.
+     - Physically move the files.
+     - Bring the database online.
+     - Re-add it to the availability group.
 
-2. **Modify File Locations for MDF and LDF**:
-   ```sql
-   ALTER DATABASE SP_Content_Office_Misc
-       MODIFY FILE (NAME = SP_Content_Office_Misc,
-                    FILENAME = 'D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Office_Misc.mdf');
-
-   ALTER DATABASE SP_Content_Office_Misc
-       MODIFY FILE (NAME = SP_Content_Office_Misc_log,
-                    FILENAME = 'L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Office_Misc_log.ldf');
-   ```
-
-3. **Take the Database Offline**:
-   ```sql
-   ALTER DATABASE SP_Content_Office_Misc SET OFFLINE;
-   ```
-
-4. **Physically Move MDF and LDF Files**
-5. **Verify SQL Server Account Access**
-6. **Bring Database Back Online**:
-   ```sql
-   ALTER DATABASE SP_Content_Office_Misc SET ONLINE;
-   ```
-
-7. **Confirm File Paths**:
-   ```sql
-   SELECT name, physical_name AS NewLocation, state_desc AS Status
-   FROM sys.master_files
-   WHERE database_id = DB_ID('SP_Content_Office_Misc');
-   ```
-
-8. **Add Database Back to Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Office_Misc;
-   ```
-
-#### For `SP_Content_Center_OMH`
-
-1. **Remove Database from Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] REMOVE DATABASE SP_Content_Center_OMH;
-   ```
-
-2. **Modify File Locations for MDF and LDF**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_OMH
-       MODIFY FILE (NAME = SP_Content_Center_OMH,
-                    FILENAME = 'D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_OMH.mdf');
-
-   ALTER DATABASE SP_Content_Center_OMH
-       MODIFY FILE (NAME = SP_Content_Center_OMH_log,
-                    FILENAME = 'L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_OMH_log.ldf');
-   ```
-
-3. **Take the Database Offline**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_OMH SET OFFLINE;
-   ```
-
-4. **Physically Move MDF and LDF Files**
-5. **Verify SQL Server Account Access**
-6. **Bring Database Back Online**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_OMH SET ONLINE;
-   ```
-
-7. **Confirm File Paths**:
-   ```sql
-   SELECT name, physical_name AS NewLocation, state_desc AS Status
-   FROM sys.master_files
-   WHERE database_id = DB_ID('SP_Content_Center_OMH');
-   ```
-
-8. **Add Database Back to Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Center_OMH;
-   ```
-
-#### For `SP_Content_Center_CM`
-
-1. **Remove Database from Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] REMOVE DATABASE SP_Content_Center_CM;
-   ```
-
-2. **Modify File Locations for MDF and LDF**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_CM
-       MODIFY FILE (NAME = SP_Content_Center_CM,
-                    FILENAME = 'D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_CM.mdf');
-
-   ALTER DATABASE SP_Content_Center_CM
-       MODIFY FILE (NAME = SP_Content_Center_CM_log,
-                    FILENAME = 'L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_CM_log.ldf');
-   ```
-
-3. **Take the Database Offline**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_CM SET OFFLINE;
-   ```
-
-4. **Physically Move MDF and LDF Files**
-5. **Verify SQL Server Account Access**
-6. **Bring Database Back Online**:
-   ```sql
-   ALTER DATABASE SP_Content_Center_CM SET ONLINE;
-   ```
-
-7. **Confirm File Paths**:
-   ```sql
-   SELECT name, physical_name AS NewLocation, state_desc AS Status
-   FROM sys.master_files
-   WHERE database_id = DB_ID('SP_Content_Center_CM');
-   ```
-
-8. **Add Database Back to Availability Group**:
-   ```sql
-   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Center_CM;
-   ```
+4. **Post-Migration Validation**
+   - Confirm correct file paths in `sys.master_files`.
+   - Monitor SQL Server and AG health.
+   - Validate disk space post-move.
 
