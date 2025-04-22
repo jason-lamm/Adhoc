@@ -45,6 +45,13 @@
    ```
 
 2. **Modify File Locations**:
+   
+   ---R:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    --Source MDF
+   ---D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data     --Destination MDF
+
+   ---G:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    -Source ldf
+   ---L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    -Destination ldf
+   
    ```sql
    ALTER DATABASE YourDatabaseName
        MODIFY FILE (NAME = YourMDFLogicalName,
