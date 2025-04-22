@@ -29,13 +29,21 @@
 
 **Tracking Goals:**
 - **Target MDF Size to Move**: 2,000 GB
-- **Current MDF Moved**: 798 GB (SP_Content_Office_Misc.mdf)
-- **Current LDF Moved**: 38 GB (SP_Content_Office_Misc_log.ldf)
+- **Current MDF Moved**: 2,140 GB (SP_Content_Office_Misc.mdf + SP_Content_Center_OMH.mdf + SP_Content_Center_CM.mdf)
+- **Current LDF Moved**: 173 GB (SP_Content_Office_Misc_log.ldf + SP_Content_Center_OMH_log.ldf + SP_Content_Center_CM_log.ldf)
 
 ---
 
 ### Section 2: Increase Drive Size on Azure SQL Servers
-**Objective**: Increase drive size for disk D and disk L on two Azure-based SQL Server VMs (`SQL *d11` and `SQL *d22`).
+**Objective**: Sequentially increase drive size for disk D and disk L on two Azure-based SQL Server VMs (`SQL *d11` and `SQL *d22`) while maintaining high availability.
+
+**Notes**:
+- These two servers work together in a high availability setup.
+- Drive resizing must be performed one server at a time.
+- Before resizing a server’s drives, move all availability groups to the opposite node.
+- After both resizing tasks are complete:
+  - Ensure `AAG-1` is placed on `*d11`.
+  - Ensure `AAG-2` is placed on `*d22`.
 
 **Steps**:
 1. **Identify the VM and the Disk**:
@@ -81,7 +89,9 @@
 - Ensure there are no active connections to the database.
 - Ensure the SQL Server account has access to the new folder paths.
 
-**Steps**:
+**Steps** (repeat for each database):
+
+#### For `SP_Content_Office_Misc`
 
 1. **Remove Database from Availability Group**:
    ```sql
@@ -104,15 +114,8 @@
    ALTER DATABASE SP_Content_Office_Misc SET OFFLINE;
    ```
 
-4. **Physically Move MDF and LDF Files**:
-   - Cut and paste the MDF file from R drive to D drive.
-   - Cut and paste the LDF file from G drive to L drive.
-
-5. **Verify SQL Server Account Access**:
-   - Open **SQL Server Configuration Manager**.
-   - Right-click the SQL Server service > Properties > Log On.
-   - Confirm the service account has NTFS permissions to new paths.
-
+4. **Physically Move MDF and LDF Files**
+5. **Verify SQL Server Account Access**
 6. **Bring Database Back Online**:
    ```sql
    ALTER DATABASE SP_Content_Office_Misc SET ONLINE;
@@ -123,5 +126,94 @@
    SELECT name, physical_name AS NewLocation, state_desc AS Status
    FROM sys.master_files
    WHERE database_id = DB_ID('SP_Content_Office_Misc');
+   ```
+
+8. **Add Database Back to Availability Group**:
+   ```sql
+   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Office_Misc;
+   ```
+
+#### For `SP_Content_Center_OMH`
+
+1. **Remove Database from Availability Group**:
+   ```sql
+   ALTER AVAILABILITY GROUP [AAG-2] REMOVE DATABASE SP_Content_Center_OMH;
+   ```
+
+2. **Modify File Locations for MDF and LDF**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_OMH
+       MODIFY FILE (NAME = SP_Content_Center_OMH,
+                    FILENAME = 'D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_OMH.mdf');
+
+   ALTER DATABASE SP_Content_Center_OMH
+       MODIFY FILE (NAME = SP_Content_Center_OMH_log,
+                    FILENAME = 'L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_OMH_log.ldf');
+   ```
+
+3. **Take the Database Offline**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_OMH SET OFFLINE;
+   ```
+
+4. **Physically Move MDF and LDF Files**
+5. **Verify SQL Server Account Access**
+6. **Bring Database Back Online**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_OMH SET ONLINE;
+   ```
+
+7. **Confirm File Paths**:
+   ```sql
+   SELECT name, physical_name AS NewLocation, state_desc AS Status
+   FROM sys.master_files
+   WHERE database_id = DB_ID('SP_Content_Center_OMH');
+   ```
+
+8. **Add Database Back to Availability Group**:
+   ```sql
+   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Center_OMH;
+   ```
+
+#### For `SP_Content_Center_CM`
+
+1. **Remove Database from Availability Group**:
+   ```sql
+   ALTER AVAILABILITY GROUP [AAG-2] REMOVE DATABASE SP_Content_Center_CM;
+   ```
+
+2. **Modify File Locations for MDF and LDF**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_CM
+       MODIFY FILE (NAME = SP_Content_Center_CM,
+                    FILENAME = 'D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_CM.mdf');
+
+   ALTER DATABASE SP_Content_Center_CM
+       MODIFY FILE (NAME = SP_Content_Center_CM_log,
+                    FILENAME = 'L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data\SP_Content_Center_CM_log.ldf');
+   ```
+
+3. **Take the Database Offline**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_CM SET OFFLINE;
+   ```
+
+4. **Physically Move MDF and LDF Files**
+5. **Verify SQL Server Account Access**
+6. **Bring Database Back Online**:
+   ```sql
+   ALTER DATABASE SP_Content_Center_CM SET ONLINE;
+   ```
+
+7. **Confirm File Paths**:
+   ```sql
+   SELECT name, physical_name AS NewLocation, state_desc AS Status
+   FROM sys.master_files
+   WHERE database_id = DB_ID('SP_Content_Center_CM');
+   ```
+
+8. **Add Database Back to Availability Group**:
+   ```sql
+   ALTER AVAILABILITY GROUP [AAG-2] ADD DATABASE SP_Content_Center_CM;
    ```
 
