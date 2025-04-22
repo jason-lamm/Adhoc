@@ -1,21 +1,52 @@
 ## SQL Server Maintenance Activities
 
-### Section 1: Increase Drive Size on Azure SQL Servers
-**Objective**: Increase drive size for 2 specific drives on 2 Azure-based SQL Servers.
+### Section 1: Gather Current Disk and Database File Information
+**Objective**: Identify current database file locations before performing changes.
+
+**Steps**:
+
+1. **Identify SQL Database File Locations**:
+   ```sql
+   SELECT name, physical_name AS CurrentLocation
+   FROM sys.master_files
+   WHERE database_id = DB_ID('YourDatabaseName');
+   ```
+
+2. **Get Logical File Names for Database**:
+   ```sql
+   USE YourDatabaseName;
+   GO
+   SELECT name AS LogicalName, physical_name AS PhysicalLocation
+   FROM sys.database_files;
+   ```
+
+3. **Check for Active Connections**:
+   ```sql
+   SELECT session_id, login_name, status, host_name, program_name
+   FROM sys.dm_exec_sessions
+   WHERE database_id = DB_ID('YourDatabaseName');
+   ```
+
+---
+
+### Section 2: Increase Drive Size on Azure SQL Servers
+**Objective**: Increase drive size for disk D and disk L on two Azure-based SQL Server VMs (`SQL *d11` and `SQL *d22`).
 
 **Steps**:
 1. **Identify the VM and the Disk**:
-   - Go to Azure Portal > Virtual Machines > Select SQL Server VM.
+   - Go to Azure Portal > Virtual Machines > Select `SQL *d11` or `SQL *d22`.
    - Under “Settings,” go to **Disks**.
 
 2. **Select the Target Disk**:
-   - Identify the disk (e.g., `Data` or `Log`) to be expanded.
+   - Identify the disk D or disk L to be expanded.
    - Note the current size and attached drive letter.
 
 3. **Resize the Disk**:
+   - For **disk L**, increase from **P30 (1000 GiB)** to **P40 (2000 GiB)**.
+   - For **disk D**, increase from **P50 (4000 GiB)** to **P60 (8000 GiB)**.
    - Click on the disk name to open disk properties.
    - Click **Size + performance**.
-   - Increase the size (e.g., from 256 GB to 512 GB).
+   - Select the new size tier.
    - Click **Save**.
 
 4. **Resize the Volume in Windows**:
@@ -29,37 +60,37 @@
 
 ---
 
-### Section 2: Move SQL Database Files (MDF and LDF) to Another Drive
+### Section 3: Move SQL Database Files (MDF and LDF) to New Drives
+**Note**: The MDF file will be moved from the R drive to the D drive, and the LDF file from the G drive to the L drive.
+
+**MDF File Path Change**:
+- **Source**: `R:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
+- **Destination**: `D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
+
+**LDF File Path Change**:
+- **Source**: `G:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
+- **Destination**: `L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data`
 
 **Pre-requisites**:
 - Ensure there are no active connections to the database.
-- Ensure the SQL Server account has access to the new folder path.
+- Ensure the SQL Server account has access to the new folder paths.
 
 **Steps**:
 
-1. **Identify Database Files**:
+1. **Remove Database from Availability Group**:
    ```sql
-   SELECT name, physical_name AS CurrentLocation
-   FROM sys.master_files
-   WHERE database_id = DB_ID('YourDatabaseName');
+   ALTER AVAILABILITY GROUP [YourAGName] REMOVE DATABASE YourDatabaseName;
    ```
 
-2. **Modify File Locations**:
-   
-   ---R:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    --Source MDF
-   ---D:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data     --Destination MDF
-
-   ---G:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    -Source ldf
-   ---L:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Data    -Destination ldf
-   
+2. **Modify File Locations for MDF and LDF**:
    ```sql
    ALTER DATABASE YourDatabaseName
        MODIFY FILE (NAME = YourMDFLogicalName,
-                    FILENAME = 'NewDrive:\\NewFolder\\YourDatabaseName.mdf');
+                    FILENAME = 'D:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\Data\\YourDatabaseName.mdf');
 
    ALTER DATABASE YourDatabaseName
        MODIFY FILE (NAME = YourLDFLogicalName,
-                    FILENAME = 'NewDrive:\\NewFolder\\YourDatabaseName_log.ldf');
+                    FILENAME = 'L:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\Data\\YourDatabaseName_log.ldf');
    ```
 
 3. **Take the Database Offline**:
@@ -67,13 +98,14 @@
    ALTER DATABASE YourDatabaseName SET OFFLINE;
    ```
 
-4. **Physically Move Files**:
-   - Cut and paste the MDF and LDF files from the old location to the new one.
+4. **Physically Move MDF and LDF Files**:
+   - Cut and paste the MDF file from R drive to D drive.
+   - Cut and paste the LDF file from G drive to L drive.
 
 5. **Verify SQL Server Account Access**:
    - Open **SQL Server Configuration Manager**.
    - Right-click the SQL Server service > Properties > Log On.
-   - Confirm the service account has NTFS permissions to new path.
+   - Confirm the service account has NTFS permissions to new paths.
 
 6. **Bring Database Back Online**:
    ```sql
